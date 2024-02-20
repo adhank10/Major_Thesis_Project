@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>News Application by Kavach & Arpit</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f7f7f7;
+            color: #333;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+            font-size: 36px;
+            text-transform: uppercase;
+            transition: background-color 0.3s;
+        }
+
+        main {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        form {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: fadeInUp 0.8s both;
+            margin-bottom: 30px;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        label {
+            font-size: 18px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            font-size: 16px;
+            border: 2px solid #007BFF;
+            border-radius: 5px;
+            width: 300px;
+            margin-left: 10px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        input[type="text"]:focus {
+            border-color: #0056b3;
+        }
+
+        button[type="submit"] {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            text-transform: uppercase;
+            transition: background-color 0.2s;
+            outline: none;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        h2 {
+            margin-bottom: 30px;
+            font-size: 28px;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        p {
+            margin: 0;
+            margin-bottom: 15px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            border-bottom: 1px solid #ccc;
+            padding: 20px 0;
+            opacity: 0;
+            animation: fadeIn 0.8s both;
+            transition-delay: 0.2s;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h3 {
+            margin: 0;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        p.source {
+            font-style: italic;
+            color: #555;
+        }
+
+        p.description {
+            color: #444;
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: #007BFF;
+            transition: color 0.2s;
+        }
+
+        a:hover {
+            color: #0056b3;
+        }
+
+        div.summary {
+            margin-top: 15px;
+            background-color: #f0f0f0;
+            padding: 15px;
+            border-radius: 5px;
+            opacity: 0;
+            animation: fadeIn 0.8s both;
+            transition-delay: 0.2s;
+        }
+
+        .show-summary {
+            animation: fadeIn 0.8s both;
+            animation-delay: 0.2s;
+        }
+
+        h4 {
+            margin: 0;
+            font-size: 20px;
+            margin-bottom: 5px;
+            color: #007BFF;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        News App
+    </header>
+    <main>
+        <form action="/" method="get">
+            <label for="query">Enter a topic to get news:</label>
+            <input type="text" id="query" name="query" value="{{ request.args.get('query', '') }}" required>
+            <button type="submit">Search</button>
+        </form>
+        <h2>Top headlines for "{{ request.args.get('query', 'technology') }}"</h2>
+        <p>Processing time: {{ '%.4f' % processing_time }} seconds</p>
+        <ul>
+            {% for article in news %}
+            <li>
+                <h3>{{ article.title }}</h3>
+                <p class="source">Source: {{ article.source }}</p>
+                <p class="description">{{ article.description }}</p>
+                <p><a href="{{ article.url }}" target="_blank">Read more &rarr;</a></p>
+                {% if article.summary %}
+                <div class="summary">
+                    <h4>Summary:</h4>
+                    <p>{{ article.summary }}</p>
+                </div>
+                {% endif %}
+            </li>
+            {% endfor %}
+        </ul>
+    </main>
+
+    <script>
+        // Show the summary section with a delay after the page loads
+        window.onload = function () {
+            const summaryDiv = document.querySelector('.summary');
+            setTimeout(function () {
+                summaryDiv.classList.add('show-summary');
+            }, 800);
+        };
+    </script>
+</body>
+
+</html>
