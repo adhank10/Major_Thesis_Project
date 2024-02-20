@@ -11,7 +11,7 @@ import time
 
 app = Flask(__name__)
 
-# Replace 'YOUR_NEWSAPI_API_KEY' with your actual NewsAPI API key
+# NewsAPI API key
 NEWSAPI_API_KEY = '55ba2e3384ae4193875068701a6147c8'
 
 
